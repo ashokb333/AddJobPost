@@ -1,0 +1,239 @@
+<!-- =======================================================
+    Author: Ashok
+    description: Delete associated products in products table when admin deletes one category.
+	node version:8.9.4
+	npm version:6.4.1
+  ======================================================= -->
+  
+<!DOCTYPE html>
+<html>
+<head>
+		<meta charset='utf-8'>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="JobPost">
+		<meta name="author" content="Ashok">
+		<title>Sample</title>	
+		<!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
+		<!-- Bootstrap core CSS -->
+		<link rel='stylesheet' href='css/bootstrap.min.css'> 		
+		<!-- angular Start-->
+		<script src='js/angular.js'></script>		
+		<script src='js/angular-route.min.js'></script>
+		<link href='js/jquery.bootgrid.css' rel='stylesheet'>
+		<script src='js/jquery-3.1.1.js'></script>     
+		<script src='js/ui-bootstrap-tpls-1.1.1.min.js'></script>
+		<script src='js/bootstrap-3.3.7.js'></script>		
+ 		<script src='cjs/main.js'></script>
+		<!-- angular End-->
+	  
+</head>
+
+<body ng-app="JobApp" ng-controller="jobostController">
+	 <div class="fluid-container">			
+		<div class="content-wrapper">
+			<div class="page-title">
+				<div >
+					<h3>Task2: ADD Job Post.</h3><br>
+				</div>
+			</div>				 
+			<div class="card">
+			  
+				<!----------- List Of Associated products Of Category -------->
+				 <div ng-init='getmyjobposts()'>
+				<div class='row'>
+				<div class='col-sm-10'></div>
+				<div class='col-sm-2'>
+				 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addnewpost">Add New Job</button>  
+						 </div>
+						 </div>
+					<table style="border-color:#BEBEBE;font-size:15px;" class="table table-bordered">
+						<thead >
+							<th >S.NO</th> 
+							<th >jobType</th> 
+							<th >category</th>
+							<th >openings</th> 							 
+							<th >Experience</th> 							 
+							<th >requirements</th> 							 
+							<th >location</th> 							 
+							<th >Action</th> 							 
+						</thead>							
+						<tbody ng-repeat="data in getmyjobpostsdata">
+							<tr>
+								 <td style="border-color:#BEBEBE;" >{{$index+1}}</td>
+								 <td style="border-color:#BEBEBE;" >{{data.jobType}}</td>
+								 <td style="border-color:#BEBEBE;" >{{data.category}}</td>
+								 <td style="border-color:#BEBEBE;" >{{data.openings}}</td>
+								 <td style="border-color:#BEBEBE;" >{{data.skillLevel}}</td>
+								 <td style="border-color:#BEBEBE;" >{{data.requirements}}</td>
+								 <td style="border-color:#BEBEBE;" >{{data.location}}</td>
+								 <td style="border-color:#BEBEBE;" >
+								 <a href=""  ng-click="Getjobpost(data.id)"  data-target="#jobpostModalEdit" data-toggle="modal"><i class="fa fa-pencil-square-o" aria-hidden="true" style='font-size:20px;'></i> Edit</a> || <a href=""  ng-click="DeleteJob(data.id)" data-toggle="modal"><i class="fa fa-trash" aria-hidden="true" style='color:red;'> </i> Del</a></td>
+							</tr>
+						</tbody>
+					</table> 					
+						
+				</div>
+				
+				<!------- End ------------->
+				
+			<!------- Add new job post------------->
+			<div class="modal" id="addnewpost"  role="dialog"  >
+				<div class="modal-dialog"  >
+
+				<!-- Modal content-->
+				<div class="modal-content" >
+					<div class="modal-body" style='overflow-y:auto;'>
+					  <button type="button" class="close" ng-click="cleartext()" data-dismiss="modal">&times;</button>
+						<div class="modal-header">
+							<h4 class="modal-title" style="text-align:center">Add New Job</h4>
+						</div>
+
+				<form method='post' name="form" name="post_job" role="form">
+                                      
+							<div class="form-group col-md-6 col-sm-6 col-xs-12">
+								<select type="text" class='form-control' name="jobType" ng-model="postJob.jobType" >
+								<option ng-selected="true">----  select job type  ---</option>
+								<option value="permanant">permanant</option>
+								<option value="contract">contract</option>
+								</select>
+							</div>
+							<!--Form Group-->
+							<div class="form-group col-md-6 col-sm-6 col-xs-12" ng-init="listCategory()">
+								<select type="text"  class='form-control'  name="jobType"  ng-model="postJob.category"  >
+								<option value="" selected="selected">select category</option>
+								<option value="it">IT jobs</option>
+								<option value="nonit">Non-IT jobs</option>
+								</select>
+							</div>
+							<!--Form Group-->
+							<div class="form-group col-md-6 col-sm-6 col-xs-12">
+							   <input type="text"  class='form-control'  name="jobdesg" ng-model="postJob.jobdesg" placeholder="Job Designation*" >
+								
+							</div>
+							<div class="form-group col-md-6 col-sm-6 col-xs-12">
+							   <input type="number"  class='form-control'  name="openings" ng-model="postJob.openings" placeholder="Enter Number Of Openings*" >
+								
+							</div>
+							<!--Form Group-->
+							<div class="form-group col-md-6 col-sm-6 col-xs-12">
+								<input type="text"  class='form-control' name="skillLevel" ng-model="postJob.skillLevel" placeholder="Enter No.Of Years Experience ">
+							</div>
+							<!--Form Group-->
+							<div class="form-group col-md-6 col-sm-6 col-xs-12">
+								<input type="text"  class='form-control'  name="location"  ng-model="postJob.location" placeholder="location">
+							</div>
+							<!--Form Group-->
+							<div class="form-group col-md-6 col-sm-6 col-xs-12">
+								<input type="text"  class='form-control'  name="salary" ng-model="postJob.salary" placeholder="salary">
+							</div> 
+							<div class="form-group col-md-6 col-sm-6 col-xs-12">
+								<input type="text"  class='form-control'  name="keywords" ng-model="postJob.keywords" placeholder="Enter job Keywords">
+							</div>
+							<!--Form Group-->
+							<div class="form-group col-md-6 col-sm-6 col-xs-12">
+							<textarea id="company" rows="3"   class='form-control'  ng-model="postJob.jobDescription" placeholder="Enter jobDescription Description....."></textarea>
+							   
+							  
+							</div>
+							
+							<!--Form Group-->
+							<div class="form-group col-md-6 col-sm-6 col-xs-12">
+							<textarea id="company" rows="3"  class='form-control'  ng-model="postJob.requirements" placeholder="Enter requirements....." ></textarea>
+							   
+							</div>
+						<!-- 	<input type="button" class="btn btn-default" name="" value="submit" ng-click="job_upload()"> -->
+						   
+						 </form>
+						 <div class="login_btn_wrapper register_btn_wrapper login_wrapper ">
+							<a href="#" class="btn btn-primary login_btn" ng-click="postjob1()">Post a Job!</a>
+						</div>
+					</div>
+				</div>
+			</div>
+	 </div>
+	 
+	 <!------- Update job post------------->
+			<div class="modal" id="jobpostModalEdit"  role="dialog"  >
+				<div class="modal-dialog"  >
+
+				<!-- Modal content-->
+				<div class="modal-content" >
+					<div class="modal-body" style='overflow-y:auto;'>
+					  <button type="button" class="close" ng-click="cleartext()" data-dismiss="modal">&times;</button>
+						<div class="modal-header">
+							<h4 class="modal-title" style="text-align:center">Update JobPost</h4>
+						</div>
+
+				<form method='post' name="form" name="post_job" role="form">
+                          <div ng-repeat="jobedit in Getjobpostdata">            
+							<div class="form-group col-md-6 col-sm-6 col-xs-12">
+								<select type="text" class='form-control' name="jobType" ng-model="jobedit.jobType" selected required >
+								<option default value='' disabled>----  select job type  ---</option>
+								<option value="permanant">permanant</option>
+								<option value="contract">contract</option>
+								</select>
+							</div>
+							<!--Form Group-->
+							<div class="form-group col-md-6 col-sm-6 col-xs-12" ng-init="listCategory()">
+								<select type="text"  class='form-control'  name="jobType"  ng-model="jobedit.category"  >
+								<option value="" selected="selected" disabled>select category</option>
+								<option value="it">IT jobs</option>
+								<option value="nonit">Non-IT jobs</option>
+								</select>
+							</div>
+							<!--Form Group-->
+							<div class="form-group col-md-6 col-sm-6 col-xs-12">
+							   <input type="text"  class='form-control'  name="jobdesg" ng-model="jobedit.jobdesg" placeholder="Job Designation*" >
+								
+							</div>
+							<div class="form-group col-md-6 col-sm-6 col-xs-12">
+							   <input type="number"  class='form-control'  name="openings" ng-model="jobedit.openings" placeholder="Enter Number Of Openings*" >
+								
+							</div>
+							<!--Form Group-->
+							<div class="form-group col-md-6 col-sm-6 col-xs-12">
+								<input type="text"  class='form-control' name="skillLevel" ng-model="jobedit.skillLevel" placeholder="Enter No.Of Years Experience ">
+							</div>
+							<!--Form Group-->
+							<div class="form-group col-md-6 col-sm-6 col-xs-12">
+								<input type="text"  class='form-control'  name="location"  ng-model="jobedit.location" placeholder="location">
+							</div>
+							<!--Form Group-->
+							<div class="form-group col-md-6 col-sm-6 col-xs-12">
+								<input type="text"  class='form-control'  name="salary" ng-model="jobedit.salary" placeholder="salary">
+							</div> 
+							<div class="form-group col-md-6 col-sm-6 col-xs-12">
+								<input type="text"  class='form-control'  name="keywords" ng-model="jobedit.keywords" placeholder="Enter job Keywords">
+							</div>
+							<!--Form Group-->
+							<div class="form-group col-md-6 col-sm-6 col-xs-12">
+							<textarea id="company" rows="3"   class='form-control'  ng-model="jobedit.jobDescription" placeholder="Enter jobDescription Description....."></textarea>
+							   
+							  
+							</div>
+							
+							<!--Form Group-->
+							<div class="form-group col-md-6 col-sm-6 col-xs-12">
+							<textarea id="company" rows="3"  class='form-control'  ng-model="jobedit.requirements" placeholder="Enter requirements....." ></textarea>
+							   
+							</div>
+						 
+						  </div> 
+						 </form>
+						 <div class="login_btn_wrapper register_btn_wrapper login_wrapper ">
+							<a href="#" class="btn btn-primary login_btn" ng-click="postjobupdate()">Update a JobPost!</a>
+						</div>
+					</div>
+				</div>
+			</div>
+	 </div>
+	 
+	 
+</div>				
+</div>
+</div>
+  
+</body>
+</html>

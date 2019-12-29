@@ -1,0 +1,59 @@
+<!-- =======================================================
+    Author: Ashok
+    description: Delete associated products in products table when admin deletes one category.
+	node version:8.9.4
+	npm version:6.4.1
+  ======================================================= -->
+  
+<!DOCTYPE html>
+<html>
+<head>
+		<meta charset='utf-8'>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="JobPost">
+		<meta name="author" content="Ashok">
+		<title>Sample</title>	
+		<!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
+		<!-- Bootstrap core CSS -->
+		<link rel='stylesheet' href='css/bootstrap.min.css'> 		
+		<!-- angular Start-->
+		<script src='js/angular.js'></script>		
+		<script src='js/angular-route.min.js'></script>
+		<link href='js/jquery.bootgrid.css' rel='stylesheet'>
+		<script src='js/jquery-3.1.1.js'></script>     
+		<script src='js/ui-bootstrap-tpls-1.1.1.min.js'></script>
+		<script src='js/bootstrap-3.3.7.js'></script>		
+ 		<script src='cjs/index.js'></script>
+		<!-- angular End-->
+	  
+</head>
+
+<body ng-app="sampleApp" ng-controller="sampleController">
+	<div class="container">
+		<div class="row ">
+			<div class="col-sm-3 "></div>
+				<div class="col-sm-9 col-md-7 col-lg-5 mx-auto ">
+					<div class="card " style='padding-top:30%'>
+						<div class="card-body">
+							<h5 class="card-title text-center">Sign In</h5>
+							<form class="form-signin ">
+								<div class="form-label-group">
+									<input type="text" id="inputEmail" class="form-control" ng-model='userauth.emailid' placeholder="Email address" required autofocus>
+									<label for="inputEmail">Email address</label>
+								</div>
+								<div class="form-label-group">
+									<input type="password" id="inputPassword" ng-model='userauth.password' class="form-control" placeholder="Password" required>
+									<label for="inputPassword">Password</label>
+								 </div>
+								<button class="btn btn-primary btn-block" type='button' ng-click="submitLogin()">Sign in</button>
+              
+							</form>
+						</div>
+					</div>
+				</div>
+		</div>
+	</div>
+</body>
+</html>
